@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,6 +9,15 @@ class AuthController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
+
+  var user = Rxn<User>();
+
+  @override
+  void onInit() {
+    super.onInit();
+    user.bindStream(_auth.authStateChanges());
+    print('AuthController initialized');
+  }
 
   // Método para registrar un nuevo usuario con email, contraseña y nombre de usuario
   Future<void> registerUser(String email, String password, String username) async {
@@ -64,13 +72,11 @@ class AuthController extends GetxController {
       if (mediaFile != null) {
         File file = File(mediaFile.path);
         String fileName = mediaFile.name;
-        String filePath = (isVideo ? 'videos' : isAudio ? 'audios' : 'images') + '/${DateTime.now().millisecondsSinceEpoch}_$fileName';
+        String filePath = '${isVideo ? 'videos' : isAudio ? 'audios' : 'images'}/${DateTime.now().millisecondsSinceEpoch}_$fileName';
         TaskSnapshot snapshot = await _storage.ref().child(filePath).putFile(file);
         mediaUrl = await snapshot.ref.getDownloadURL();
         mediaType = isVideo ? 'video' : isAudio ? 'audio' : 'image';
       }
-
-      
 
       // Crear la publicación en Firestore
       await _firestore.collection('publicacion').add({

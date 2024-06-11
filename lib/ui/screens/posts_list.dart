@@ -5,15 +5,23 @@ import '../../domain/entities/post.dart';
 import '../widgets/audio_widget.dart';
 import '../widgets/video_widget.dart';
 
-
 class PostsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection('posts').orderBy('timestamp', descending: true).snapshots(),
+      stream: FirebaseFirestore.instance.collection('publicacion').orderBy('timestamp', descending: true).snapshots(),
       builder: (context, snapshot) {
-        if (snapshot.hasError) return Text('Error: ${snapshot.error}');
-        if (snapshot.connectionState == ConnectionState.waiting) return Center(child: CircularProgressIndicator());
+        if (snapshot.hasError) {
+          print('Stream error: ${snapshot.error}');
+          return Text('Error: ${snapshot.error}');
+        }
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        }
+
+        if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+          return Center(child: Text('No hay publicaciones disponibles'));
+        }
 
         return ListView(
           children: snapshot.data!.docs.map((DocumentSnapshot document) {
@@ -38,7 +46,10 @@ class PostsList extends StatelessWidget {
                         SizedBox(height: 10),
                         Text('Publicado por: ${data['username']}', style: TextStyle(color: Colors.grey[600], fontSize: 14)),
                         if (data['timestamp'] != null)
-                          Text('Publicado: ${data['timestamp'].toDate()}', style: TextStyle(color: Colors.grey[600], fontSize: 12)),
+                          Text(
+                            'Publicado: ${data['timestamp'].toDate()}',
+                            style: TextStyle(color: Colors.grey[600], fontSize: 12),
+                          ),
                       ],
                     ),
                   ),

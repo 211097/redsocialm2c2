@@ -6,7 +6,6 @@ import 'package:file_picker/file_picker.dart';
 import '../../controllers/auth_controller.dart';
 import 'posts_list.dart';
 
-
 class HomePage extends StatelessWidget {
   final AuthController authController = Get.find();
   final TextEditingController postController = TextEditingController();
@@ -39,7 +38,7 @@ class HomePage extends StatelessWidget {
             child: TextField(
               controller: postController,
               decoration: InputDecoration(
-                labelText: '¿en que estas pensando?',
+                labelText: '¿en qué estás pensando?',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12.0),
                 ),
