@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "884779701107",
+    "project_id": "flutter-red-social",
+    "storage_bucket": "flutter-red-social.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:884779701107:android:7af2aea15dc37bffdbab06",
+        "android_client_info": {
+          "package_name": "com.example.red_social"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-3znGuFBklkb7N0wKNiQPG2Poxh3pqA0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
